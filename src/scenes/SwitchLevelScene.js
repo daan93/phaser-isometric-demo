@@ -1,10 +1,10 @@
 import Phaser from 'phaser';
-import IsoHelper from './IsoHelper';
-import TileHelper from './TileHelper';
-import HeroObject from './HeroObject';
-import PickupObject from './PickupObject';
+import IsoHelper from '../helpers/IsoHelper';
+import TileHelper from '../helpers/TileHelper';
+import HeroObject from '../objects/HeroObject';
+import PickupObject from '../objects/PickupObject';
 import ScoreLabel from '../ui/ScoreLabel';
-import KeyInput from './KeyInput';
+import KeyInput from '../helpers/KeyInput';
 
 /* activity spawns pickups randomly which the character can collect by walking over 
 and introduces doors with trigger tiles which can swap levels

@@ -1,9 +1,11 @@
 import Phaser from 'phaser'
-import IsoHelper from './IsoHelper'
+import IsoHelper from '../helpers/IsoHelper'
 
 export default class PickupObject extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y) {
         super(scene, x, y, 'pickup');
+
+        this.count = 0;
     }
 
     drawPickupIso(i, j, tileWidth, borderOffset) {
@@ -19,12 +21,14 @@ export default class PickupObject extends Phaser.GameObjects.Sprite {
     }
 
     spawnNewPickup(levelData, sorcerer, tileWidth, borderOffset) {//spawn new pickup at an empty spot
+        this.count++;
         let tileType = 0;
         let tempArray = [];
         let newPt = new Phaser.Geom.Point();
         for (let i = 0; i < levelData.length; i++) {
             for (let j = 0; j < levelData[0].length; j++) {
                 tileType = levelData[i][j];
+                levelData[i][j] = tileType === 8 ? 0 : tileType;
                 if (tileType == 0 && sorcerer.heroMapTile.y != i && sorcerer.heroMapTile.x != j) {
                     newPt = new Phaser.Geom.Point();
                     newPt.x = i;

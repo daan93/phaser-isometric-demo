@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import IsoHelper from './IsoHelper'
+import IsoHelper from '../helpers/IsoHelper'
 
 export default class HeroObject extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, borderOffset, floorGraphicHeight) {

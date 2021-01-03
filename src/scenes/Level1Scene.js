@@ -13,6 +13,5 @@ export default class Level1Scene extends SwitchLevelScene {
             [1, 0, 0, 0, 1, 1],
             [1, 1, 1, 1, 1, 1]];
         this.heroMapTile = new Phaser.Geom.Point(3,3);
-        console.log(this.heroMapTile);
     }
 }
