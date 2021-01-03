@@ -10,24 +10,23 @@ import KeyInput from '../helpers/KeyInput';
 and introduces doors with trigger tiles which can swap levels
 */
 
-//x & y values of the direction vector for character movement
-let dX = 0;
-let dY = 0;
-let tileWidth = 50;// the width of a tile
-let borderOffset = new Phaser.Geom.Point(300, 75);//to centralise the isometric level display
-let wallGraphicHeight = 98;
-// let floorGraphicWidth = 103;
-let floorGraphicHeight = 53;
-// let heroGraphicWidth = 41;
-// let heroWidth = (floorGraphicWidth / 2) - (heroGraphicWidth / 2);//for placing hero at the middle of the tile
-let sorcerer;//hero
-// let sorcererShadow;//duh
-// let shadowOffset = new Phaser.Geom.Point(heroWidth + 7, 11);
-
 export default class SwitchLevelScene extends Phaser.Scene {
     init(data) {
         this.score = data.score ? data.score : 0;   
         this.heroMapTile = data.heroMapTile ? data.heroMapTile : this.heroMapTile;
+        //x & y values of the direction vector for character movement
+        this.dX = 0;
+        this.dY = 0;
+        this.tileWidth = 50;// the width of a tile
+        this.borderOffset = new Phaser.Geom.Point(300, 75);//to centralise the isometric level display
+        this.wallGraphicHeight = 98;
+        // this.floorGraphicWidth = 103;
+        this.floorGraphicHeight = 53;
+        // this.heroGraphicWidth = 41;
+        // this.heroWidth = (floorGraphicWidth / 2) - (heroGraphicWidth / 2);//for placing hero at the middle of the tile
+        this.sorcerer;//hero
+        // this.sorcererShadow;//duh
+        // this.shadowOffset = new Phaser.Geom.Point(heroWidth + 7, 11);
     }
 
     create() {     
@@ -35,8 +34,8 @@ export default class SwitchLevelScene extends Phaser.Scene {
         this.pickupSprite = this.add.existing(new PickupObject(this, 0, 0));
         this.TileHelper = new TileHelper(this);
         this.scoreLabel = this.createScoreLabel(10, 360, this.score)
-        // sorcererShadow = this.add.sprite(0, 0, 'heroShadow');
-        // sorcererShadow.alpha = 0.4;
+        // this.sorcererShadow = this.add.sprite(0, 0, 'heroShadow');
+        // this.sorcererShadow.alpha = 0.4;
         // heroMapTile = new Phaser.Geom.Point(3, 3);
         this.cursors = this.input.keyboard.createCursorKeys()
         this.input.keyboard.on('keydown-X', this.triggerListener);// add a Signal listener for up event
@@ -45,32 +44,32 @@ export default class SwitchLevelScene extends Phaser.Scene {
 
     update() {
         //check key press
-        const KeyOutput = KeyInput.detectKeyInput(this.cursors, sorcerer.facing);
-        sorcerer.facing = KeyOutput.facing;
-        dY = KeyOutput.dY;
-        dX = KeyOutput.dX;
+        const KeyOutput = KeyInput.detectKeyInput(this.cursors, this.sorcerer.facing);
+        this.sorcerer.facing = KeyOutput.facing;
+        this.dY = KeyOutput.dY;
+        this.dX = KeyOutput.dX;
 
         //if no key is pressed then stop else play walking animation
-        if (dY == 0 && dX == 0) {
-            sorcerer.anims.stop();
-            sorcerer.anims.setProgress(0);
+        if (this.dY == 0 && this.dX == 0) {
+            this.sorcerer.anims.stop();
+            this.sorcerer.anims.setProgress(0);
         } else {
-            if (sorcerer.anims.currentAnim != sorcerer.facing) {
-                sorcerer.anims.play(sorcerer.facing, true);
+            if (this.sorcerer.anims.currentAnim != this.sorcerer.facing) {
+                this.sorcerer.anims.play(this.sorcerer.facing, true);
             }
         }
         
         //check if we are walking into a wall else move hero in 2D
-        if (this.TileHelper.isWalkable(this.levelData, sorcerer, dX, dY, tileWidth)) {
-            sorcerer.heroMapPos.x += sorcerer.heroSpeed * dX;
-            sorcerer.heroMapPos.y += sorcerer.heroSpeed * dY;
+        if (this.TileHelper.isWalkable(this.levelData, this.sorcerer, this.dX, this.dY, this.tileWidth)) {
+            this.sorcerer.heroMapPos.x += this.sorcerer.heroSpeed * this.dX;
+            this.sorcerer.heroMapPos.y += this.sorcerer.heroSpeed * this.dY;
             //get the new hero map tile
-            sorcerer.heroMapTile = IsoHelper.getTileCoordinates(sorcerer.heroMapPos, tileWidth);
+            this.sorcerer.heroMapTile = IsoHelper.getTileCoordinates(this.sorcerer.heroMapPos, this.tileWidth);
             //check for pickup & collect
             if (this.onPickupTile()) {
                 this.pickupItem();
             }
-            sorcerer.update()
+            this.sorcerer.update()
         }
     }
 
@@ -86,27 +85,27 @@ export default class SwitchLevelScene extends Phaser.Scene {
 
     createLevel() {//create minimap
         this.addHero();
-        this.pickupSprite.spawnNewPickup(this.levelData, sorcerer, tileWidth, borderOffset);
+        this.pickupSprite.spawnNewPickup(this.levelData, this.sorcerer, this.tileWidth, this.borderOffset);
         this.renderScene();//draw once the initial state
     }
 
     addHero() {
         // sprite
-        sorcerer = this.add.existing(new HeroObject(this, 0, 0, borderOffset, floorGraphicHeight));// keep him out side screen area
-        sorcerer.setTilePosition(this.heroMapTile.x, this.heroMapTile.y, tileWidth)
-        sorcerer.play(sorcerer.facing);
+        this.sorcerer = this.add.existing(new HeroObject(this, 0, 0, this.borderOffset, this.floorGraphicHeight));// keep him out side screen area
+        this.sorcerer.setTilePosition(this.heroMapTile.x, this.heroMapTile.y, this.tileWidth)
+        this.sorcerer.play(this.sorcerer.facing);
     }
 
     renderScene() {
-        sorcerer.update();
+        this.sorcerer.update();
 
         let tileType = 0;
         for (let i = 0; i < this.levelData.length; i++) {
             for (let j = 0; j < this.levelData[0].length; j++) {
                 tileType = this.levelData[i][j];
-                this.TileHelper.drawTileIso(this, tileType, i, j, tileWidth, borderOffset, wallGraphicHeight, floorGraphicHeight);
+                this.TileHelper.drawTileIso(this, tileType, i, j, this.tileWidth, this.borderOffset, this.wallGraphicHeight, this.floorGraphicHeight);
                 if (tileType == 8) {
-                    this.pickupSprite.drawPickupIso(i, j, tileWidth, borderOffset);
+                    this.pickupSprite.drawPickupIso(i, j, this.tileWidth, this.borderOffset);
                 }
             }
         }
@@ -114,17 +113,15 @@ export default class SwitchLevelScene extends Phaser.Scene {
 
     triggerListener() {
         let that = this.scene;
-        let trigger = that.levelData[sorcerer.heroMapTile.y][sorcerer.heroMapTile.x];
+        let trigger = that.levelData[that.sorcerer.heroMapTile.y][that.sorcerer.heroMapTile.x];
         if (trigger > 100) {//valid trigger tile
             trigger -= 100;
 
             let newScene;
 
             if (trigger == 1) {//switch to level 1
-                // that.scene.stop();
                 newScene = 'level-1-scene';
             } else {//switch to level 2
-                // that.scene.stop();
                 newScene = 'level-2-scene';
             }
             
@@ -154,12 +151,12 @@ export default class SwitchLevelScene extends Phaser.Scene {
     pickupItem() {
         this.score++;
         this.scoreLabel.add(1)
-        this.levelData[sorcerer.heroMapTile.y][sorcerer.heroMapTile.x] = 0;
+        this.levelData[this.sorcerer.heroMapTile.y][this.sorcerer.heroMapTile.x] = 0;
         //spawn next pickup
-        this.pickupSprite.spawnNewPickup(this.levelData, sorcerer, tileWidth, borderOffset);
+        this.pickupSprite.spawnNewPickup(this.levelData, this.sorcerer, this.tileWidth, this.borderOffset);
     }
 
     onPickupTile() {//check if there is a pickup on hero tile
-        return (this.levelData[sorcerer.heroMapTile.y][sorcerer.heroMapTile.x] == 8);
+        return (this.levelData[this.sorcerer.heroMapTile.y][this.sorcerer.heroMapTile.x] == 8);
     }
 }
