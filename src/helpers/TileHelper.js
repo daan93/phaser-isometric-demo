@@ -43,27 +43,25 @@ export default class TileHelper {
         }
     }
 
-    isWalkable(levelData, sorcerer, dX, dY, tileWidth) {//It is not advisable to create points in update loop, but for code readability.
+    isWalkable(levelData, tileCorners, tileWidth) {//It is not advisable to create points in update loop, but for code readability.
         let able = true;
 
-        const newTileCorners = sorcerer.getTileCorners(dX, dY);
-
         //check if those corners fall inside a wall after moving
-        newTileCorners.newTileCorner1 = IsoHelper.getTileCoordinates(newTileCorners.newTileCorner1, tileWidth);
-        if (levelData[newTileCorners.newTileCorner1.y][newTileCorners.newTileCorner1.x] == 1 ||
-            levelData[newTileCorners.newTileCorner1.y][newTileCorners.newTileCorner1.x] == 2) {
+        tileCorners.newTileCorner1 = IsoHelper.getTileCoordinates(tileCorners.newTileCorner1, tileWidth);
+        if (levelData[tileCorners.newTileCorner1.y][tileCorners.newTileCorner1.x] == 1 ||
+            levelData[tileCorners.newTileCorner1.y][tileCorners.newTileCorner1.x] == 2) {
             able = false;
         }
 
-        newTileCorners.newTileCorner2 = IsoHelper.getTileCoordinates(newTileCorners.newTileCorner2, tileWidth);
-        if (levelData[newTileCorners.newTileCorner2.y][newTileCorners.newTileCorner2.x] == 1 ||
-            levelData[newTileCorners.newTileCorner2.y][newTileCorners.newTileCorner2.x] == 2) {
+        tileCorners.newTileCorner2 = IsoHelper.getTileCoordinates(tileCorners.newTileCorner2, tileWidth);
+        if (levelData[tileCorners.newTileCorner2.y][tileCorners.newTileCorner2.x] == 1 ||
+            levelData[tileCorners.newTileCorner2.y][tileCorners.newTileCorner2.x] == 2) {
             able = false;
         }
 
-        newTileCorners.newTileCorner3 = IsoHelper.getTileCoordinates(newTileCorners.newTileCorner3, tileWidth);
-        if (levelData[newTileCorners.newTileCorner3.y][newTileCorners.newTileCorner3.x] == 1 ||
-            levelData[newTileCorners.newTileCorner3.y][newTileCorners.newTileCorner3.x] == 2) {
+        tileCorners.newTileCorner3 = IsoHelper.getTileCoordinates(tileCorners.newTileCorner3, tileWidth);
+        if (levelData[tileCorners.newTileCorner3.y][tileCorners.newTileCorner3.x] == 1 ||
+            levelData[tileCorners.newTileCorner3.y][tileCorners.newTileCorner3.x] == 2) {
             able = false;
         }
 

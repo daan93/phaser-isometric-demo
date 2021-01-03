@@ -4,7 +4,7 @@ import TileHelper from '../helpers/TileHelper';
 import HeroObject from '../objects/HeroObject';
 import PickupObject from '../objects/PickupObject';
 import ScoreLabel from '../ui/ScoreLabel';
-import KeyInput from '../helpers/KeyInput';
+import KeyInput from '../helpers/KeyInputHelper';
 
 /* activity spawns pickups randomly which the character can collect by walking over 
 and introduces doors with trigger tiles which can swap levels
@@ -15,8 +15,7 @@ export default class SwitchLevelScene extends Phaser.Scene {
         this.score = data.score ? data.score : 0; // overwritten by data in scene change
         this.heroMapTile = data.heroMapTile ? data.heroMapTile : this.heroMapTile; // set in level scene, overwritten by data in scene change
         //x & y values of the direction vector for character movement
-        this.dX = 0;
-        this.dY = 0;
+        this.direction = new Phaser.Geom.Point(0, 0);
         this.tileWidth = 50;// the width of a tile
         this.borderOffset = new Phaser.Geom.Point(300, 75);//to centralise the isometric level display
         this.wallGraphicHeight = 98;
@@ -38,11 +37,10 @@ export default class SwitchLevelScene extends Phaser.Scene {
         //check key press
         const KeyOutput = KeyInput.detectKeyInput(this.cursors, this.sorcerer.facing);
         this.sorcerer.facing = KeyOutput.facing;
-        this.dY = KeyOutput.dY;
-        this.dX = KeyOutput.dX;
+        this.direction = KeyOutput.direction;
 
         //if no key is pressed then stop else play walking animation
-        if (this.dY == 0 && this.dX == 0) {
+        if (this.direction.y == 0 && this.direction.x == 0) {
             this.sorcerer.anims.stop();
             this.sorcerer.anims.setProgress(0);
         } else {
@@ -52,9 +50,9 @@ export default class SwitchLevelScene extends Phaser.Scene {
         }
         
         //check if we are walking into a wall else move hero in 2D
-        if (this.TileHelper.isWalkable(this.levelData, this.sorcerer, this.dX, this.dY, this.tileWidth)) {
-            this.sorcerer.heroMapPos.x += this.sorcerer.heroSpeed * this.dX;
-            this.sorcerer.heroMapPos.y += this.sorcerer.heroSpeed * this.dY;
+        if (this.TileHelper.isWalkable(this.levelData, this.sorcerer.getNewTileCorners(this.direction), this.tileWidth)) {
+            this.sorcerer.heroMapPos.x += this.sorcerer.heroSpeed * this.direction.x;
+            this.sorcerer.heroMapPos.y += this.sorcerer.heroSpeed * this.direction.y;
             //get the new hero map tile
             this.sorcerer.heroMapTile = IsoHelper.getTileCoordinates(this.sorcerer.heroMapPos, this.tileWidth);
             //check for pickup & collect

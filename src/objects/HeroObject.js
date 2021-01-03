@@ -98,13 +98,13 @@ export default class HeroObject extends Phaser.GameObjects.Sprite {
         });
     }
 
-    getTileCorners(offsetX, offsetY) {
+    getNewTileCorners(direction) {
         let heroCornerPt = new Phaser.Geom.Point(this.heroMapPos.x - this.hero2DVolume.x / 2, this.heroMapPos.y - this.hero2DVolume.y / 2);
         let cornerTL = new Phaser.Geom.Point();
-        cornerTL.x = heroCornerPt.x + (this.heroSpeed * offsetX);
-        cornerTL.y = heroCornerPt.y + (this.heroSpeed * offsetY);
+        cornerTL.x = heroCornerPt.x + (this.heroSpeed * direction.x);
+        cornerTL.y = heroCornerPt.y + (this.heroSpeed * direction.y);
         // now we have the top left corner point. we need to find all 4 corners based on the map marker graphics width & height
-        //ideally we should just provide the hero a volume instead of using the graphics' width & height
+        // ideally we should just provide the hero a volume instead of using the graphics' width & height
         let cornerTR = new Phaser.Geom.Point();
         cornerTR.x = cornerTL.x + this.hero2DVolume.x;
         cornerTR.y = cornerTL.y;
