@@ -9,11 +9,11 @@ The demo is based on the following tutorial for Phaser 2 and rewritten for the n
 Open [demo](https://daan93.github.io/phaser-isometric-demo/)
 
 ## Todo
-[ ] Add pointer interaction
-[ ] Add path finding with easystar.js
-[ ] Look into phasers dynamic tyle sprites (from tiled)
-[ ] Improve isWalkable() by implementing collision physics
-[ ] Look into isophyics with height (z-axis) support
+- [ ] Add pointer interaction
+- [ ] Add path finding with easystar.js
+- [ ] Look into phasers dynamic tyle sprites (from tiled)
+- [ ] Improve isWalkable() by implementing collision physics
+- [ ] Look into isophyics with height (z-axis) support
 
 ## CLI
 
