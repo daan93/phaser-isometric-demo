@@ -114,18 +114,41 @@ export default class SwitchLevelScene extends Phaser.Scene {
 
     triggerListener() {
         let that = this.scene;
-        console.log('pressed x');
         let trigger = that.levelData[sorcerer.heroMapTile.y][sorcerer.heroMapTile.x];
         if (trigger > 100) {//valid trigger tile
             trigger -= 100;
+
+            let newScene;
+
             if (trigger == 1) {//switch to level 1
-                that.scene.stop();
-                that.scene.start('level-1-scene', {score: that.score, heroMapTile: new Phaser.Geom.Point(3, 1)});
+                // that.scene.stop();
+                newScene = 'level-1-scene';
             } else {//switch to level 2
-                that.scene.stop();
-                that.scene.start('level-2-scene', {score: that.score, heroMapTile: new Phaser.Geom.Point(3, 4)});
+                // that.scene.stop();
+                newScene = 'level-2-scene';
+            }
+            
+            let heroMapTile = that.getNewHeroMapTile(newScene);
+            that.scene.start(newScene, {score: that.score, heroMapTile: heroMapTile});
+        }
+    }
+
+    getNewHeroMapTile(newScene) {
+        newScene = this.scene.get(newScene);
+        let levelData = newScene.levelData;
+        let heroMapTile = new Phaser.Geom.Point();
+        for (var i = 0; i < levelData.length; i++)
+        {
+            for (var j = 0; j < levelData[0].length; j++)
+            {
+                let trigger=levelData[i][j];
+                if(trigger>100){//find the new trigger tile and place hero there
+                    heroMapTile.y=j;
+                    heroMapTile.x=i;
+                }
             }
         }
+        return heroMapTile;
     }
 
     pickupItem() {
