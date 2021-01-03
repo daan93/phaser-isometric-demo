@@ -12,34 +12,26 @@ and introduces doors with trigger tiles which can swap levels
 
 export default class SwitchLevelScene extends Phaser.Scene {
     init(data) {
-        this.score = data.score ? data.score : 0;   
-        this.heroMapTile = data.heroMapTile ? data.heroMapTile : this.heroMapTile;
+        this.score = data.score ? data.score : 0; // overwritten by data in scene change
+        this.heroMapTile = data.heroMapTile ? data.heroMapTile : this.heroMapTile; // set in level scene, overwritten by data in scene change
         //x & y values of the direction vector for character movement
         this.dX = 0;
         this.dY = 0;
         this.tileWidth = 50;// the width of a tile
         this.borderOffset = new Phaser.Geom.Point(300, 75);//to centralise the isometric level display
         this.wallGraphicHeight = 98;
-        // this.floorGraphicWidth = 103;
         this.floorGraphicHeight = 53;
-        // this.heroGraphicWidth = 41;
-        // this.heroWidth = (floorGraphicWidth / 2) - (heroGraphicWidth / 2);//for placing hero at the middle of the tile
-        this.sorcerer;//hero
-        // this.sorcererShadow;//duh
-        // this.shadowOffset = new Phaser.Geom.Point(heroWidth + 7, 11);
     }
 
     create() {     
         this.cameras.main.setBackgroundColor('#cccccc');
-        this.pickupSprite = this.add.existing(new PickupObject(this, 0, 0));
         this.TileHelper = new TileHelper(this);
         this.scoreLabel = this.createScoreLabel(10, 360, this.score)
-        // this.sorcererShadow = this.add.sprite(0, 0, 'heroShadow');
-        // this.sorcererShadow.alpha = 0.4;
-        // heroMapTile = new Phaser.Geom.Point(3, 3);
         this.cursors = this.input.keyboard.createCursorKeys()
         this.input.keyboard.on('keydown-X', this.triggerListener);// add a Signal listener for up event
-        this.createLevel();
+        
+        // Render tiles and pickup
+        this.renderScene();//draw once the initial state
     }
 
     update() {
@@ -83,22 +75,18 @@ export default class SwitchLevelScene extends Phaser.Scene {
 		return label
 	}
 
-    createLevel() {//create minimap
-        this.addHero();
-        this.pickupSprite.spawnNewPickup(this.levelData, this.sorcerer, this.tileWidth, this.borderOffset);
-        this.renderScene();//draw once the initial state
-    }
-
-    addHero() {
-        // sprite
+    renderScene() {
+        // add hero sprite
         this.sorcerer = this.add.existing(new HeroObject(this, 0, 0, this.borderOffset, this.floorGraphicHeight));// keep him out side screen area
         this.sorcerer.setTilePosition(this.heroMapTile.x, this.heroMapTile.y, this.tileWidth)
         this.sorcerer.play(this.sorcerer.facing);
-    }
-
-    renderScene() {
         this.sorcerer.update();
+        
+        // add pickup sprite
+        this.pickupSprite = this.add.existing(new PickupObject(this, 0, 0));
+        this.pickupSprite.spawnNewPickup(this.levelData, this.sorcerer, this.tileWidth, this.borderOffset);
 
+        // add tiles
         let tileType = 0;
         for (let i = 0; i < this.levelData.length; i++) {
             for (let j = 0; j < this.levelData[0].length; j++) {
