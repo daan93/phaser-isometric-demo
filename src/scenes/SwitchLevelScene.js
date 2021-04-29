@@ -5,6 +5,7 @@ import HeroObject from '../objects/HeroObject';
 import PickupObject from '../objects/PickupObject';
 import ScoreLabel from '../ui/ScoreLabel';
 import KeyInput from '../helpers/KeyInputHelper';
+import PathMove from '../helpers/PathMoveHelper';
 
 /* activity spawns pickups randomly which the character can collect by walking over 
 and introduces doors with trigger tiles which can swap levels
@@ -22,7 +23,7 @@ export default class SwitchLevelScene extends Phaser.Scene {
         this.floorGraphicHeight = 53;
     }
 
-    create() {     
+    create() {
         this.cameras.main.setBackgroundColor('#cccccc');
         this.TileHelper = new TileHelper(this);
         this.scoreLabel = this.createScoreLabel(10, 360, this.score)
@@ -31,15 +32,32 @@ export default class SwitchLevelScene extends Phaser.Scene {
         
         // Render tiles and pickup
         this.renderScene();//draw once the initial state
+        
+        // detect pointer click
+        this.PathMoveHelper = new PathMove(this);
+        let that = this;
+        this.input.on('pointerup', function (pointer) {
+            if (pointer.leftButtonReleased()) {
+                that.PathMoveHelper.findPath(that);
+            }
+        })
     }
 
     update() {
-        //check key press
-        const KeyOutput = KeyInput.detectKeyInput(this.cursors, this.sorcerer.facing);
-        this.sorcerer.facing = KeyOutput.facing;
-        this.direction = KeyOutput.direction;
+        if(this.PathMoveHelper.path.length > 0) {
+            // ai walk, will override key press
+            const PathOutput = this.PathMoveHelper.aiWalk(this, this.direction, this.sorcerer.facing);
+            this.sorcerer.facing = PathOutput.facing;
+            this.direction = PathOutput.direction;
+        }
+        else {
+            // check key press, will return direction 0 if not pressed
+            const KeyOutput = KeyInput.detectKeyInput(this.cursors, this.sorcerer.facing);
+            this.sorcerer.facing = KeyOutput.facing;
+            this.direction = KeyOutput.direction;
+        }
 
-        //if no key is pressed then stop else play walking animation
+        //if direction is still 0 then stop else play walking animation
         if (this.direction.y == 0 && this.direction.x == 0) {
             this.sorcerer.anims.stop();
             this.sorcerer.anims.setProgress(0);
@@ -61,6 +79,8 @@ export default class SwitchLevelScene extends Phaser.Scene {
             }
             this.sorcerer.update()
         }
+
+        this.heroMapTile = IsoHelper.getTileCoordinates(this.sorcerer.heroMapPos,this.tileWidth);
     }
 
     createScoreLabel(x, y, score)
