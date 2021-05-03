@@ -16,6 +16,8 @@ export default class PreloadScene extends Phaser.Scene {
         let that = this;
 
         this.load.on("complete", () => {
+            this.scene.launch('UI-scene');
+            this.scene.bringToTop('UI-scene');
             that.scene.start("level-1-scene")
         });
 

@@ -22,14 +22,15 @@ export default class {
     findPath(scene) {
         this.heroMapTile = scene.heroMapTile;
         let pos = scene.input.activePointer.position;
-        let isoPt = new Phaser.Geom.Point(pos.x - scene.borderOffset.x, pos.y - scene.borderOffset.y);
+        let isoPt = new Phaser.Geom.Point(pos.x - scene.borderOffset.x + scene.cameras.main.scrollX, pos.y - scene.borderOffset.y + scene.cameras.main.scrollY);
         this.tapPos = IsoHelper.isometricToCartesian(isoPt);
         this.tapPos.x -= scene.tileWidth / 2;//adjustment to find the right tile for error due to rounding off
         this.tapPos.y += scene.tileWidth / 2;
         this.tapPos = IsoHelper.getTileCoordinates(this.tapPos, scene.tileWidth);
         this.tapPos.x += 1; // x needs adjustment for some weird unknown behavior
         console.log(`tap on x: ${this.tapPos.x}, y: ${this.tapPos.y}`)
-        if (this.tapPos.x > -1 && this.tapPos.y > -1 && this.tapPos.x < 7 && this.tapPos.y < 7) {//tapped within grid
+        console.log(scene.levelData.length, scene.levelData[0].length)
+        if (this.tapPos.x > -1 && this.tapPos.y > -1 && this.tapPos.x < scene.levelData[0].length + 1 && this.tapPos.y < scene.levelData.length + 1) {//tapped within grid
             if (scene.levelData[this.tapPos.y][this.tapPos.x] != 1) {//not wall tile
                 this.isFindingPath = true;
                 //let the algorithm do the magic

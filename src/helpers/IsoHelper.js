@@ -13,17 +13,17 @@ export default {
         return (tempPt);
     },
 
-    getTileCoordinates(cartPt, tileHeight) {
+    getTileCoordinates(cartPt, tileWidth) {
         let tempPt = new Phaser.Geom.Point();
-        tempPt.x = Math.floor(cartPt.x / tileHeight);
-        tempPt.y = Math.floor(cartPt.y / tileHeight);
+        tempPt.x = Math.floor(cartPt.x / tileWidth);
+        tempPt.y = Math.floor(cartPt.y / tileWidth);
         return (tempPt);
     },
 
-    getCartesianFromTileCoordinates(tilePt, tileHeight) {
+    getCartesianFromTileCoordinates(tilePt, tileWidth) {
         let tempPt = new Phaser.Geom.Point();
-        tempPt.x = tilePt.x * tileHeight;
-        tempPt.y = tilePt.y * tileHeight;
+        tempPt.x = tilePt.x * tileWidth;
+        tempPt.y = tilePt.y * tileWidth;
         return (tempPt);
     }
 }

@@ -3,7 +3,6 @@ import IsoHelper from '../helpers/IsoHelper';
 import TileHelper from '../helpers/TileHelper';
 import HeroObject from '../objects/HeroObject';
 import PickupObject from '../objects/PickupObject';
-import ScoreLabel from '../ui/ScoreLabel';
 import KeyInput from '../helpers/KeyInputHelper';
 import PathMove from '../helpers/PathMoveHelper';
 
@@ -21,12 +20,12 @@ export default class SwitchLevelScene extends Phaser.Scene {
         this.borderOffset = new Phaser.Geom.Point(300, 75);//to centralise the isometric level display
         this.wallGraphicHeight = 98;
         this.floorGraphicHeight = 53;
+        this.floorGraphicWidth = 103;
     }
 
     create() {
         this.cameras.main.setBackgroundColor('#cccccc');
         this.TileHelper = new TileHelper(this);
-        this.scoreLabel = this.createScoreLabel(10, 360, this.score)
         this.cursors = this.input.keyboard.createCursorKeys()
         this.input.keyboard.on('keydown-X', this.triggerListener);// add a Signal listener for up event
         
@@ -41,9 +40,17 @@ export default class SwitchLevelScene extends Phaser.Scene {
                 that.PathMoveHelper.findPath(that);
             }
         })
+
+        this.cameras.main.setBounds(
+            0, 
+            0, 
+            this.levelData.length * this.tileWidth + this.levelData[0].length * this.tileWidth, 
+            this.levelData.length * this.floorGraphicHeight / 2 + this.levelData[0].length * this.floorGraphicHeight / 2);
     }
 
-    update() {
+    update(time) {
+        this.cameras.main.centerOn(this.sorcerer.x, this.sorcerer.y);
+
         if(this.PathMoveHelper.path.length > 0) {
             // ai walk, will override key press
             const PathOutput = this.PathMoveHelper.aiWalk(this, this.direction, this.sorcerer.facing);
@@ -82,16 +89,6 @@ export default class SwitchLevelScene extends Phaser.Scene {
 
         this.heroMapTile = IsoHelper.getTileCoordinates(this.sorcerer.heroMapPos,this.tileWidth);
     }
-
-    createScoreLabel(x, y, score)
-	{
-		const style = { fontSize: '16px', fill: '#000' }
-		const label = new ScoreLabel(this, x, y, score, style)
-
-		this.add.existing(label)
-
-		return label
-	}
 
     renderScene() {
         // add hero sprite
@@ -156,7 +153,7 @@ export default class SwitchLevelScene extends Phaser.Scene {
 
     pickupItem() {
         this.score++;
-        this.scoreLabel.add(1)
+        this.events.emit('addScore');
         this.levelData[this.sorcerer.heroMapTile.y][this.sorcerer.heroMapTile.x] = 0;
         //spawn next pickup
         this.pickupSprite.spawnNewPickup(this.levelData, this.sorcerer, this.tileWidth, this.borderOffset);
