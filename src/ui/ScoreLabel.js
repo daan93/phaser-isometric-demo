@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 
-const formatScore = (score) => `Collected : ${score} coins. (Change level -\'x\' at door)`
+const formatScore = (score) => `Collected : ${score} coins`
 
 export default class ScoreLabel extends Phaser.GameObjects.Text
 {
