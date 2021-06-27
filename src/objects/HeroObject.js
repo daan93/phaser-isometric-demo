@@ -38,7 +38,7 @@ export default class HeroObject extends Phaser.GameObjects.Sprite {
     }
 
     update() {
-        if (this.MoveTo.path.length > 0) {
+        if (this.MoveTo.isWalking || this.MoveTo.path.length > 0) {
             // get directions
             const PathOutput = this.MoveTo.aiWalk(this, this.direction, this.facing);
             this.facing = PathOutput.facing;

@@ -18,6 +18,7 @@ export default class PickupObject extends Phaser.GameObjects.Sprite {
         this.x = isoPt.x + borderOffset.x;
         this.y = isoPt.y + borderOffset.y - (47 / 2) + 8;
         this.depth = this.y + 47 / 2 + 1;
+        this.clearTint();
     }
 
     spawnNewPickup(levelData, sorcerer, tileWidth, borderOffset) {//spawn new pickup at an empty spot
