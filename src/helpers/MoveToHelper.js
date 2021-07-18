@@ -62,7 +62,7 @@ export default class {
 
         tiles.walkableTiles.forEach(element => {
             this.easystar.findPath(this.gameObject.heroMapTile.x, this.gameObject.heroMapTile.y, element.x, element.y, function (newPath) {
-                if (!that.path.length || newPath.length < that.path.length ) {
+                if (newPath && (!that.path.length || newPath.length < that.path.length) ) {
                     that.path = newPath;
                     that.path.push(newPath[newPath.length-1]);
                     that.path.reverse();
@@ -73,9 +73,6 @@ export default class {
         });
 
         this.easystar.calculate();
-        // find path to each walkable tile
-        // pick path with lowest amount of steps and lowest tile cost
-        // move character along path
     }
 
     searchedTileBefore(tilePt, walkableTiles, unwalkableTiles) {
