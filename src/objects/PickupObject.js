@@ -6,13 +6,14 @@ export default class PickupObject extends Phaser.GameObjects.Sprite {
         super(scene, x, y, 'pickup');
 
         this.count = 0;
+        this.tile = new Phaser.Geom.Point();
     }
 
-    drawPickupIso(i, j, tileWidth, borderOffset) {
+    drawPickupIso(x, y, tileWidth, borderOffset) {
         let isoPt = new Phaser.Geom.Point();//It is not advisable to create point in update loop
         let cartPt = new Phaser.Geom.Point();//This is here for better code readability.
-        cartPt.x = j * tileWidth;
-        cartPt.y = i * tileWidth;
+        cartPt.x = x * tileWidth;
+        cartPt.y = y * tileWidth;
         isoPt = IsoHelper.cartesianToIsometric(cartPt);
 
         this.x = isoPt.x + borderOffset.x;
@@ -29,8 +30,7 @@ export default class PickupObject extends Phaser.GameObjects.Sprite {
         for (let i = 0; i < levelData.length; i++) {
             for (let j = 0; j < levelData[0].length; j++) {
                 tileType = levelData[i][j];
-                levelData[i][j] = tileType === 8 ? 0 : tileType;
-                if (tileType == 0 && sorcerer.heroMapTile.y != i && sorcerer.heroMapTile.x != j) {
+                if ((Array(0, 1, 2).includes(tileType)) && sorcerer.heroMapTile.y != i && sorcerer.heroMapTile.x != j) {
                     newPt = new Phaser.Geom.Point();
                     newPt.x = i;
                     newPt.y = j;
@@ -39,15 +39,7 @@ export default class PickupObject extends Phaser.GameObjects.Sprite {
             }
         }
         newPt = Phaser.Utils.Array.GetRandom(tempArray);
-        levelData[newPt.x][newPt.y] = 8;
-
-        for (let i = 0; i < levelData.length; i++) {
-            for (let j = 0; j < levelData[0].length; j++) {
-                tileType = levelData[i][j];
-                if (tileType == 8) {
-                    this.drawPickupIso(i, j, tileWidth, borderOffset);
-                }
-            }
-        }
+        this.drawPickupIso(newPt.x, newPt.y, tileWidth, borderOffset);
+        this.tile = newPt;
     }
 }

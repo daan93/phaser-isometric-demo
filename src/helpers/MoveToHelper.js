@@ -14,7 +14,7 @@ export default class {
         this.levelData = levelData;
         this.tileWidth = tileWidth;
         this.gameObject = gameObject;
-        this.walkableTiles = [0, 101, 102, 8];
+        this.walkableTiles = [0, 1, 2, 8];
         this.lowestDistanceToTarget = 0;
 
         this.easystar = new EasyStar.js();

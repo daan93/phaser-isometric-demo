@@ -15,7 +15,7 @@ Open [demo](https://daan93.github.io/phaser-isometric-demo/)
 - [x] Make game responsive
 - [ ] Add ways to interact with other characters
 - [ ] Add a store to spend coins
-- [ ] Look into phasers dynamic tyle sprites (from tiled)
+- [x] Look into phasers dynamic tyle sprites (from tiled)
 - [ ] ~~Improve isWalkable() by implementing collision physics~~ Don't use 2d for isometric physics, use Enable3d instead.
 - [ ] ~~Look into isophyics with height (z-axis) support~~
 

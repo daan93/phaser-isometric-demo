@@ -32,7 +32,7 @@ export default class HeroObject extends Phaser.GameObjects.Sprite {
 
     setTilePosition(tileX, tileY) {
         this.heroMapTile = new Phaser.Geom.Point(tileX, tileY);
-        this.heroMapPos = new Phaser.Geom.Point(this.heroMapTile.y * this.tileWidth, this.heroMapTile.x * this.tileWidth);
+        this.heroMapPos = new Phaser.Geom.Point(this.heroMapTile.x * this.tileWidth, this.heroMapTile.y * this.tileWidth);
         this.heroMapPos.x += (this.tileWidth / 2);
         this.heroMapPos.y += (this.tileWidth / 2);
     }

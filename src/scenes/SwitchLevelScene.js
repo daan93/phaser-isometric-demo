@@ -11,16 +11,41 @@ and introduces doors with trigger tiles which can swap levels
 
 export default class SwitchLevelScene extends Phaser.Scene {
     init(data) {
+        const layer = this.map.layers[0].data;
+
+        const mapwidth = this.map.layers[0].width;
+        const mapheight = this.map.layers[0].height;
+
+        this.levelData = new Array(mapheight);
+
+        for (var i = 0; i < this.levelData.length; i++) {
+            this.levelData[i] = new Array(mapwidth);
+        }
+
+        let ii = 0;
+
+        for (let y = 0; y < mapheight; y++)
+        {
+            for (let x = 0; x < mapwidth; x++)
+            {
+                const id = layer[ii] - 1;
+
+                this.levelData[y][x] = id;
+
+                ii++;
+            }
+        }
+
         this.score = data.score ? data.score : 0; // overwritten by data in scene change
         this.heroMapTile = data.heroMapTile ? data.heroMapTile : this.heroMapTile; // set in level scene, overwritten by data in scene change
         //x & y values of the direction vector for character movement
         this.direction = new Phaser.Geom.Point(0, 0);
         this.assassinDirection = new Phaser.Geom.Point(0, 0);
-        this.tileWidth = 50;// the width of a tile
+        this.tileWidth = this.map.tileheight;// the width of a tile
         this.borderOffset = new Phaser.Geom.Point(300, 75);//to centralise the isometric level display
-        this.wallGraphicHeight = 98;
-        this.floorGraphicHeight = 53;
-        this.floorGraphicWidth = 103;
+        this.wallGraphicHeight = this.map.tileheight;
+        this.floorGraphicHeight = this.map.tileheight;
+        this.floorGraphicWidth = this.map.tilewidth;
         this.clicked = false;
         this.clickedPickup = false;
         this.clickedDoor = false;
@@ -45,7 +70,7 @@ export default class SwitchLevelScene extends Phaser.Scene {
         this.renderScene();//draw once the initial state
 
         this.cameras.main.setBounds(
-            0,
+            this.map.layers[0].width * this.map.tileWidth / -2,
             0,
             this.levelData.length * this.tileWidth + this.levelData[0].length * this.tileWidth,
             this.levelData.length * this.floorGraphicHeight / 2 + this.levelData[0].length * this.floorGraphicHeight / 2);
@@ -60,7 +85,8 @@ export default class SwitchLevelScene extends Phaser.Scene {
         }
         else if (this.clickedDoor) {
             this.triggerListener();
-            let isoPt = new Phaser.Geom.Point(this.TileHelper.doormat.x - this.borderOffset.x, this.TileHelper.doormat.y - this.borderOffset.y);
+            let pos = this.input.activePointer.position;
+            let isoPt = new Phaser.Geom.Point(pos.x - this.borderOffset.x + this.cameras.main.scrollX, pos.y - this.borderOffset.y + this.cameras.main.scrollY);
             this.sorcerer.MoveTo.findPath(this, isoPt);
         }
         else if (this.clicked) {
@@ -164,13 +190,11 @@ export default class SwitchLevelScene extends Phaser.Scene {
 
     triggerListener() {
         let that = this;
-        let trigger = that.levelData[that.sorcerer.heroMapTile.y][that.sorcerer.heroMapTile.x];
-        if (trigger > 100) {//valid trigger tile
-            trigger -= 100;
-
+        let trigger = new Phaser.Geom.Point(that.sorcerer.heroMapTile.x, that.sorcerer.heroMapTile.y);
+        if (trigger.x === this.doormat.x && trigger.y === this.doormat.y) {//valid trigger tile
             let newScene;
 
-            if (trigger == 1) {//switch to level 1
+            if (that.scene.key == 'level-2-scene') {//switch to level 1
                 newScene = 'level-1-scene';
             } else {//switch to level 2
                 newScene = 'level-2-scene';
@@ -183,18 +207,7 @@ export default class SwitchLevelScene extends Phaser.Scene {
 
     getNewHeroMapTile(newScene) {
         newScene = this.scene.get(newScene);
-        let levelData = newScene.levelData;
-        let heroMapTile = new Phaser.Geom.Point();
-        for (var i = 0; i < levelData.length; i++) {
-            for (var j = 0; j < levelData[0].length; j++) {
-                let trigger = levelData[i][j];
-                if (trigger > 100) {//find the new trigger tile and place hero there
-                    heroMapTile.y = j;
-                    heroMapTile.x = i;
-                }
-            }
-        }
-        return heroMapTile;
+        return newScene.doormat;
     }
 
     pickupItem() {
@@ -206,10 +219,10 @@ export default class SwitchLevelScene extends Phaser.Scene {
     }
 
     onPickupTile() {//check if there is a pickup on hero tile
-        return (this.levelData[this.sorcerer.heroMapTile.y][this.sorcerer.heroMapTile.x] == 8);
+        return (this.sorcerer.heroMapTile.y === this.pickupSprite.tile.y && this.sorcerer.heroMapTile.x === this.pickupSprite.tile.x);
     }
 
     onDoorMat() {
-        return (this.levelData[this.sorcerer.heroMapTile.y][this.sorcerer.heroMapTile.x] > 100);
+        return (this.sorcerer.heroMapTile.y === this.doormat.y && this.sorcerer.heroMapTile.x === this.doormat.x);
     }
 }

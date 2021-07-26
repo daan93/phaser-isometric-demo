@@ -16,36 +16,30 @@ export default class TileHelper {
         cartPt.x = j * tileWidth;
         cartPt.y = i * tileWidth;
         isoPt = IsoHelper.cartesianToIsometric(cartPt);
-
         let tile;
 
-        if (tileType == 1) {
-            tile = scene.add.image(isoPt.x + borderOffset.x, isoPt.y + borderOffset.y - (wallGraphicHeight - floorGraphicHeight) / 2, 'wall');
-            tile.depth = tile.y + wallGraphicHeight / 2 - floorGraphicHeight / 2;
-            
-            if(this.tileDebug) {
-                this.tileDebugGraphics.fillStyle(0xff0000);
-                this.tileDebugGraphics.fillCircle(tile.x, tile.y, 3);
-                this.tileDebugGraphics.fillStyle(0x00ff00);
-                this.tileDebugGraphics.fillCircle(tile.x, tile.depth, 3);
-            }
-        } else if (tileType == 2) {
-            this.door = scene.add.image(isoPt.x + borderOffset.x, isoPt.y + borderOffset.y - (wallGraphicHeight - floorGraphicHeight) / 2, 'door');
-            this.door.depth = this.door.y + wallGraphicHeight / 2 - floorGraphicHeight / 2;
-        } else {
-            tile = scene.add.image(isoPt.x + borderOffset.x, isoPt.y + borderOffset.y, 'floor');
-            tile.depth = tile.y - floorGraphicHeight / 2;
+        if (i == 0 && j == 0) {
+            console.log(isoPt.x + borderOffset.x, isoPt.y + borderOffset.y);
+        }
 
-            if (tileType == 101 || tileType == 102) {
-                this.doormat = tile;
-            }
+        tile = scene.add.image(isoPt.x + borderOffset.x, isoPt.y + borderOffset.y - (wallGraphicHeight - floorGraphicHeight) / 2, 'tiles', tileType);
+        tile.setOrigin(.5, 1 / 6 * 5);
+        console.log(tile.originY);
+        tile.depth = tile.y - floorGraphicHeight / 2;
 
-            if(this.tileDebug) {
-                this.tileDebugGraphics.fillStyle(0xffff00);
-                this.tileDebugGraphics.fillCircle(tile.x, tile.y, 3);
-                this.tileDebugGraphics.fillStyle(0x0000ff);
-                this.tileDebugGraphics.fillCircle(tile.x, tile.depth, 3);
-            }
+        if (Array(3, 4, 5).includes(tileType)) {
+            tile.depth = tile.y
+        }
+
+        if (tileType == 3) {
+            this.door = tile;
+        }
+
+        if (this.tileDebug) {
+            this.tileDebugGraphics.fillStyle(0xffff00);
+            this.tileDebugGraphics.fillCircle(tile.x, tile.y, 3);
+            this.tileDebugGraphics.fillStyle(0x0000ff);
+            this.tileDebugGraphics.fillCircle(tile.x, tile.depth, 3);
         }
     }
 
