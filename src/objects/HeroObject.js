@@ -3,7 +3,7 @@ import IsoHelper from '../helpers/IsoHelper'
 import MoveTo from '../helpers/MoveToHelper';
 
 export default class HeroObject extends Phaser.GameObjects.Sprite {
-    constructor(scene, tileX, tileY, borderOffset, floorGraphicHeight, tileWidth, levelData) {
+    constructor(scene, tileX, tileY, borderOffset, floorGraphicHeight, tileWidth, levelData, sprite) {
         super(scene);
 
         // set tile position
@@ -27,7 +27,7 @@ export default class HeroObject extends Phaser.GameObjects.Sprite {
         this.heroDebug = false;
         this.HeroDebugGraphics = scene.add.graphics();
         this.HeroDebugGraphics.depth = 9999;
-        this.createAnims();
+        this.createAnims(sprite);
     }
 
     setTilePosition(tileX, tileY) {
@@ -77,53 +77,53 @@ export default class HeroObject extends Phaser.GameObjects.Sprite {
         }
     }
 
-    createAnims() {
+    createAnims(sprite) {
         // animation
         this.anims.create({
             key: 'southeast',
-            frames: this.anims.generateFrameNumbers('hero2', { start: 0, end: 5 }),
+            frames: this.anims.generateFrameNumbers(sprite, { start: 0, end: 5 }),
             frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'east',
-            frames: this.anims.generateFrameNumbers('hero2', { start: 6, end: 11 }),
+            frames: this.anims.generateFrameNumbers(sprite, { start: 6, end: 11 }),
             frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'northeast',
-            frames: this.anims.generateFrameNumbers('hero2', { start: 12, end: 17 }),
+            frames: this.anims.generateFrameNumbers(sprite, { start: 12, end: 17 }),
             frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'north',
-            frames: this.anims.generateFrameNumbers('hero2', { start: 18, end: 23 }),
+            frames: this.anims.generateFrameNumbers(sprite, { start: 18, end: 23 }),
             frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'northwest',
-            frames: this.anims.generateFrameNumbers('hero2', { start: 24, end: 29 }),
+            frames: this.anims.generateFrameNumbers(sprite, { start: 24, end: 29 }),
             frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'west',
-            frames: this.anims.generateFrameNumbers('hero2', { start: 30, end: 35 }),
+            frames: this.anims.generateFrameNumbers(sprite, { start: 30, end: 35 }),
             frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'southwest',
-            frames: this.anims.generateFrameNumbers('hero2', { start: 36, end: 41 }),
+            frames: this.anims.generateFrameNumbers(sprite, { start: 36, end: 41 }),
             frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'south',
-            frames: this.anims.generateFrameNumbers('hero2', { start: 42, end: 47 }),
+            frames: this.anims.generateFrameNumbers(sprite, { start: 42, end: 47 }),
             frameRate: 10,
             repeat: -1
         });

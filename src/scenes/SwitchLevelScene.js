@@ -140,15 +140,14 @@ export default class SwitchLevelScene extends Phaser.Scene {
         let scene = this;
 
         // add hero sprite
-        this.sorcerer = this.add.existing(new HeroObject(this, this.heroMapTile.x, this.heroMapTile.y, this.borderOffset, this.floorGraphicHeight, this.tileWidth, this.levelData));
+        this.sorcerer = this.add.existing(new HeroObject(this, this.heroMapTile.x, this.heroMapTile.y, this.borderOffset, this.floorGraphicHeight, this.tileWidth, this.levelData, 'hero2'));
         this.sorcerer.play(this.sorcerer.facing);
         this.sorcerer.update();
 
         // add assasin sprite
-        this.assassin = this.add.existing(new HeroObject(this, 1, 1, this.borderOffset, this.floorGraphicHeight, this.tileWidth, this.levelData));
+        this.assassin = this.add.existing(new HeroObject(this, 1, 1, this.borderOffset, this.floorGraphicHeight, this.tileWidth, this.levelData, 'hero3'));
         this.assassin.play(this.assassin.facing);
         this.assassin.update();
-        this.assassin.setTint(0x666666);
 
         let tilePt = new Phaser.Geom.Point(3, 1);
         this.assassin.MoveTo.findPath(this, IsoHelper.cartesianToIsometric(IsoHelper.getCartesianFromTileCoordinates(tilePt, this.tileWidth)))
