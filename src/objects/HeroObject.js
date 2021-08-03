@@ -15,10 +15,10 @@ export default class HeroObject extends Phaser.GameObjects.Sprite {
         this.MoveTo = new MoveTo(this.heroMapTile, levelData, this.tileWidth, this);
 
         // other settings
-        this.heroSpeed = 1.2;//well, speed of our hero
+        this.heroSpeed = 1.5;//well, speed of our hero
         this.heroMapPos;//2D coordinates of hero map marker sprite in minimap, assume this is mid point of graphic
-        this.hero2DVolume = new Phaser.Geom.Point(30, 30);//now that we dont have a minimap & hero map sprite, we need this
-        this.heroGraphicHeight = 62;
+        this.hero2DVolume = new Phaser.Geom.Point(64, 64);//now that we dont have a minimap & hero map sprite, we need this
+        this.heroGraphicHeight = 169;
         this.borderOffset = borderOffset;
         this.floorGraphicHeight = floorGraphicHeight
         this.facing = 'southeast';
@@ -81,50 +81,50 @@ export default class HeroObject extends Phaser.GameObjects.Sprite {
         // animation
         this.anims.create({
             key: 'southeast',
-            frames: this.anims.generateFrameNames('hero', { suffix: '.png', start: 1, end: 4 }),
-            frameRate: 6,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'south',
-            frames: this.anims.generateFrameNames('hero', { suffix: '.png', start: 5, end: 8 }),
-            frameRate: 6,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'southwest',
-            frames: this.anims.generateFrameNames('hero', { suffix: '.png', start: 9, end: 12 }),
-            frameRate: 6,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'west',
-            frames: this.anims.generateFrameNames('hero', { suffix: '.png', start: 13, end: 16 }),
-            frameRate: 6,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'northwest',
-            frames: this.anims.generateFrameNames('hero', { suffix: '.png', start: 17, end: 20 }),
-            frameRate: 6,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'north',
-            frames: this.anims.generateFrameNames('hero', { suffix: '.png', start: 21, end: 24 }),
-            frameRate: 6,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'northeast',
-            frames: this.anims.generateFrameNames('hero', { suffix: '.png', start: 25, end: 28 }),
-            frameRate: 6,
+            frames: this.anims.generateFrameNumbers('hero2', { start: 0, end: 5 }),
+            frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'east',
-            frames: this.anims.generateFrameNames('hero', { suffix: '.png', start: 29, end: 32 }),
-            frameRate: 6,
+            frames: this.anims.generateFrameNumbers('hero2', { start: 6, end: 11 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'northeast',
+            frames: this.anims.generateFrameNumbers('hero2', { start: 12, end: 17 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'north',
+            frames: this.anims.generateFrameNumbers('hero2', { start: 18, end: 23 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'northwest',
+            frames: this.anims.generateFrameNumbers('hero2', { start: 24, end: 29 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'west',
+            frames: this.anims.generateFrameNumbers('hero2', { start: 30, end: 35 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'southwest',
+            frames: this.anims.generateFrameNumbers('hero2', { start: 36, end: 41 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'south',
+            frames: this.anims.generateFrameNumbers('hero2', { start: 42, end: 47 }),
+            frameRate: 10,
             repeat: -1
         });
     }

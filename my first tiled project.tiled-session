@@ -21,8 +21,8 @@
             "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1581,
-                "y": 1174
+                "x": 1412,
+                "y": 1200
             }
         },
         "src/assets/map2.tmx": {
@@ -40,23 +40,41 @@
                 "x": 449.1558793891947,
                 "y": 257.1707619564375
             }
+        },
+        "src/assets/map3.tmx": {
+            "scale": 0.9722656249999999,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 291.07271996785863,
+                "y": 160.4499799116111
+            }
+        },
+        "src/assets/tileset3.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "src/assets/tileset4.tsx": {
+            "scaleInEditor": 1
         }
     },
     "last.exportedFilePath": "C:/Users/danie/Documents/sites/phaser-isometric/src/assets",
     "last.imagePath": "C:/Users/danie/Documents/sites/phaser-isometric/src/assets",
-    "map.height": 8,
+    "map.height": 4,
     "map.lastUsedExportFilter": "JSON map bestanden (*.json)",
     "map.lastUsedFormat": "tmx",
     "map.orientation": null,
     "map.tileHeight": 64,
     "map.tileWidth": 128,
-    "map.width": 8,
+    "map.width": 6,
     "openFiles": [
         "src/assets/map.tmx",
         "src/assets/Tileset.tsx"
     ],
     "project": "my first tiled project.tiled-project",
     "recentFiles": [
+        "src/assets/tileset3.tsx",
+        "src/assets/map3.tmx",
+        "src/assets/tileset4.tsx",
         "src/assets/map2tmx.tmx",
         "src/assets/map.tmx",
         "src/assets/Tileset.tsx",
@@ -64,7 +82,7 @@
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
-        "height": 192,
+        "height": 224,
         "width": 128
     }
 }

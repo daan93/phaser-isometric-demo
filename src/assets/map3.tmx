@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.1" orientation="isometric" renderorder="right-down" width="4" height="6" tilewidth="128" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="1">
+ <tileset firstgid="1" source="tileset2_2.tsx"/>
+ <tileset firstgid="7" source="tileset4.tsx"/>
+ <tileset firstgid="15" source="tileset3.tsx"/>
+ <layer id="1" name="Tiles" width="4" height="6">
+  <data encoding="csv">
+4,4,5,5,
+4,4,5,5,
+4,4,5,5,
+4,4,5,5,
+4,4,5,5,
+4,4,5,5
+</data>
+ </layer>
+ <layer id="4" name="West Walls" width="4" height="6">
+  <data encoding="csv">
+22,0,0,0,
+22,0,0,0,
+22,0,0,0,
+20,0,0,0,
+22,0,0,0,
+22,0,0,0
+</data>
+ </layer>
+ <layer id="5" name="North Walls" width="4" height="6">
+  <data encoding="csv">
+19,19,24,19,
+0,0,0,0,
+0,0,0,0,
+0,0,0,0,
+0,0,0,0,
+0,0,0,0
+</data>
+ </layer>
+ <layer id="3" name="Blocks" width="4" height="6">
+  <data encoding="csv">
+0,0,0,14,
+0,9,0,7,
+0,9,0,13,
+0,0,0,14,
+0,8,0,7,
+0,8,0,13
+</data>
+ </layer>
+</map>
